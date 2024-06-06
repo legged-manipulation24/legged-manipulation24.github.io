@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visual Manipulation with Legs</title>
+  <link rel="icon" type="image/png" href="./static/images/favicon.ico">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Visual Manipulation with Legs</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block" >
+              CoRL2024 Submission 44 </span>
+  
+            <!-- <span class="author-block">
+              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+            </span> -->
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<h2 class="title is-size-5" style="text-align: center; padding-bottom: 10px;">Our robot can move autonomously, see objects, and decide how to manipulate them to achieve the goal pose.</h2>
+
+<section class="section">
+  <div class = "container is-max-desktop">
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+      <video autoplay muted loop playsinline controls src="./video/teaser1.mp4" style="width: 75%; border-radius: 10px;"></video>
+      <video autoplay muted loop playsinline controls src="./video/teaser2.mp4" style="width: 75%; border-radius: 10px; margin-top:10px"></video>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-2">Abstract</h2>
+        
+        <div class="content has-text-justified">
+          <p>
+            &nbsp &nbsp Animals have the ability to use their arms and legs for both locomotion and manipulation. We envision quadruped robots to have the same versatility. This work presents a system that empowers a quadruped robot to perform object interactions with its legs, drawing inspiration from non-prehensile manipulation techniques. The proposed system has two main components: a manipulation module and a locomotion module. The manipulation module decides how the leg should interact with the object, trained with reinforcement learning (RL) with point cloud observations and object-centric actions. The locomotion module controls the leg movements and body pose adjustments, implemented based on impedance control and Model Predictive Control (MPC). Besides manipulating objects with a single leg, the proposed system can also select from left or right legs based on the critic maps and move the object to distant goals through robot base adjustment. In the experiments, we evaluate the proposed system with the object pose alignment tasks both in simulation and in the real world, demonstrating object manipulation skills with legs more versatile than previous work. 
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+
+    <section class="section">
+  
+      <div class="container is-max-desktop">
+        <div class = "container is-centered has-text-centered">
+            <h2 class="title is-2">System Overview</h2>
+            <img src="./static/images/system_overview_00.png" alt="System Overview" style="width: 100%; height: 150%;">
+            <div class="column is-full" style="margin-top: 30px;">
+            <p style="text-align:justify"> <b>Visual Manipulation with Legs</b>: The operation of our system is divided into several distinct stages 1) A point cloud of the object is obtained through a depth camera mounted in front of the robot. 2) Object point cloud and transformed target pose are passed through our network. 3) The manipulation leg is selected by comparing the maximum Q-value. 4) The pre-contact, contact, and action information is sent to the Low-level control System. 5) The control system directs the Robot to conduct the action with the selected leg through impedance control while the Model Predictive Controller maintains the balance of the non-manipulation leg, the computed torques are sent to the robot.</p>
+          </div>
+          </div>
+    
+      </div>
+    
+    </section>
+
+
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full"> <!-- This stretches the video horizontally -->
+        <h2 class="title is-2">Video</h2>
+        <div class="publication-video" style="position: relative; overflow: hidden; height: 0; border-radius: 20px; "> <!-- Added border-radius here -->
+          <iframe src="https://www.youtube.com/embed/N-1vI5pfTTQ?si=ndVbQ9x1zwKaVDHP" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 20px;"></iframe> <!-- And here -->
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container">
+    <h2 class="title is-2 has-text-centered" style="padding-bottom: 10px;">Visualization in the Real World</h2>
+    <h2 class="title is-3 has-text-centered" style="padding-bottom: 10px;">Object Flipping</h2>
+    <div class="columns is-centered">
+      <!-- First column -->
+      <div class="column" id="c3" style="display: flex; flex-direction: column; align-items: center;">
+        <div style="width: 80%; display: flex; flex-direction: column; align-items: center;">
+          <video autoplay muted loop playsinline controls src="./video/ours_rightflip_cropped_new.mp4" id= "vid" style=" border-radius: 10px;"></video>
+          <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Right Flip</h3>
+        </div>
+      </div>
+      <!-- Second column -->
+      <div class="column" id="c4" style="display: flex; flex-direction: column; align-items: center;">
+        <div style="width: 80%; display: flex; flex-direction: column; align-items: center;">
+          <video autoplay muted loop playsinline controls src="./video/ours_leftflip_cropped_new.mp4" id="vid" style=" border-radius: 10px;"></video>
+          <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Left Flip</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  /* Desktop-specific styles */
+
+  @media screen and (min-width: 768px) {
+    #c1 {
+      /* Only apply negative margin on desktops */
+      margin-right: calc(-2vw - 80px); 
+    }
+
+    #c2 {
+      /* Only apply negative margin on desktops */
+      margin-left: calc(-2vw - 80px); 
+    }
+
+    #c3{
+      margin-right: -120px;
+    }
+
+    #c4{
+      margin-left: -120px;
+    }
+
+
+    #vid {
+      width: 60%;  
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    #c1 {
+      /* Only apply negative margin on desktops */
+      margin-right: -115px; 
+    }
+
+    #c2 {
+      /* Only apply negative margin on desktops */
+      margin-left: -115px; 
+    }
+
+    #c3{
+      margin-right: -150px;
+    }
+
+    #c4{
+      margin-left: -150px;
+    }
+
+
+    #vid {
+      width: 60%;
+    }
+  }
+
+
+  @media screen and (min-width: 1410px) {
+    #c1 {
+      /* Only apply negative margin on desktops */
+      margin-right: -165px; 
+    }
+
+    #c2 {
+      /* Only apply negative margin on desktops */
+      margin-left: -165px; 
+    }
+
+    #c3{
+      margin-right: -230px;
+    }
+
+    #c4{
+      margin-left: -230px;
+    }
+
+    #vid {
+      width: 60%;
+    }
+
+  }
+</style>
+
+
+<section class="section">
+  <div class="container">
+    <h2 class="title is-3 has-text-centered" style="padding-bottom: 10px;">Object Pushing</h2>
+    <div class="columns is-centered">
+      <!-- First column -->
+      <div class="column" id="c1" style="display: flex; flex-direction: column; align-items: center; ">
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+          <video autoplay muted loop playsinline controls src="./video/ours/ours_coffe.mp4" id="vid" style=" border-radius: 10px;"></video>
+          <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Coffee</h3>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 15px">
+          <video autoplay muted loop playsinline controls src="./video/ours/ours_nutella.mp4" id="vid" style=" border-radius: 10px;"></video>
+          <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Nutella</h3>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 15px">
+          <video autoplay muted loop playsinline controls src="./video/ours/ours_nutella_down.mp4" id="vid" style=" border-radius: 10px;"></video>
+          <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Nutella Down</h3>
+        </div>
+      </div>
+      <!-- Second column -->
+      <div class="column" id="c2" style="display: flex; flex-direction: column; align-items: center;">
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+          <video autoplay muted loop playsinline controls src="./video/ours/ours_ham.mp4" id="vid" style=" border-radius: 10px;"></video>
+          <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Ham</h3>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;margin-top: 15px">
+          <video autoplay muted loop playsinline controls src="./video/ours/ours_toy.mp4" id="vid" style=" border-radius: 10px;"></video>
+          <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Toy</h3>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;margin-top: 15px">
+          <video autoplay muted loop playsinline controls src="./video/ours/ours_mustard.mp4" id="vid" style=" border-radius: 10px;"></video>
+          <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Mustard</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container">
+    <h2 class="title is-3 has-text-centered" style="padding-bottom: 10px;">Multistep</h2>
+    <div class="columns is-centered">
+      <!-- First column -->
+      <div class="column">
+        <video autoplay muted loop playsinline controls src="./video/multi_step/multistep_box.mp4" width="100%" style="border-radius: 10px;"></video>
+        <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Box</h3>
+      </div>
+      <!-- Second column -->
+      <div class="column">
+        <video autoplay muted loop playsinline controls src="./video/multi_step/multistep_powder.mp4" width="100%" style="border-radius: 10px;"></video>
+        <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">powder</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2" style="text-align: center; padding-bottom: 10px;">Visualization</h2>
+    <h2 class="title is-3" style="text-align: center; padding-bottom: 10px;">Task Visualization</h2>
+    <div class="columns is-centered has-text-centered">
+      <!-- First row of images -->
+      <div class="column is-one-third">
+        <img src="image/robo.jpg" alt="Image 1">
+        <p>How our robot interacts with objects</p>
+      </div>
+      <div class="column is-one-third">
+        <img src="image/color.png" alt="Image 2">
+        <p>Our robot's camera view(colored)</p>
+      </div>
+      <div class="column is-one-third">
+        <img src="image/depth.png" alt="Image 3">
+        <p>Our robot's camera view(depth)</p>
+      </div>
+    </div>
+    <h2 class="title is-3" style="text-align: center; padding-bottom: 10px;">Heatmap Visualization</h2>
+    <div class="columns is-centered has-text-centered">
+      <!-- First row of images -->
+      <div class="column is-one-third">
+        <img src="image/1.png" alt="Image 1">
+        <p>Box push</p>
+      </div>
+      <div class="column is-one-third">
+        <img src="image/2.png" alt="Image 2">
+        <p>Box left flip</p>
+      </div>
+      <div class="column is-one-third">
+        <img src="image/3.png" alt="Image 3">
+        <p>Tall object push</p>
+      </div>
+    </div>
+    <!-- Second row for PDF image -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <img src="image/4.png" alt="Image 4" style="width: 100%;">
+        <p class="has-text-centered">Box flip + push</p>
+      </div>
+      </div>
+
+      <p> <b> Heatmap Visualization: </b>The blue points represent the goal point cloud. The color map illustrates the observed object point cloud (The purple points in Picture represent the final object's point cloud), with lighter colors indicating higher critic map scores. Red arrows indicate the motion parameters at a selected contact location. The policy selects different contact locations based on object geometries and goals.</p>
+    </div>
+
+    <h2 class="title is-3" style="text-align: center; padding-bottom: 10px; margin-top: 20px">Simulation Trajectory Visualization</h2>
+<div class="columns is-centered has-text-centered">
+  <!-- First row of images -->
+  <div class="column is-4">
+    <img src="image/box_push.png" alt="Image 1">
+    <p>Box push (Random goal)</p>
+  </div>
+  <div class="column is-4">
+    <img src="image/box_flip.png" alt="Image 2">
+    <p>Box Flip</p>
+  </div>
+</div>
+<div class="columns is-centered has-text-centered">
+  <!-- Second row for a single large image -->
+  <div class="column is-8">
+    <img src="image/multi_obj_push.png" alt="Image 3">
+    <p class="has-text-centered">Multi-object push (Random goal)</p>
+  </div>
+</div>
+
+    
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Source code borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a><div class=""></div>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
